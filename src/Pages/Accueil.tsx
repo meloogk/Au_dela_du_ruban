@@ -5,23 +5,23 @@ export function Home() {
     <div className="relative min-h-screen">
       
       {/* NAVBAR / MENU */}
-      <StaggeredMenu
-        position="right"
-        isFixed={true}
-        items={[
-          { label: "Accueil", link: "/" },
-          { label: "Comprendre", link: "/comprendre" },
-          { label: "Prévention", link: "/prevention" },
-           { label: "Blog", link: "/Blog" },
-          { label: "Témoignages", link: "/temoignages" },
-         { label: "Faire un Don", link: "/Dons" },
-          { label: "Contact", link: "/Contact" },
-        ]}
-        colors={["#F7C6D0", "#E91E63"]}   
-        accentColor="#E91E63"
-        menuButtonColor="#111"
-        openMenuButtonColor="#E91E63"
-      />
+    <StaggeredMenu
+  position="right"
+  isFixed={true}
+  items={[
+    { label: "Accueil", link: "/", ariaLabel: "Aller à l'accueil" },
+    { label: "Comprendre", link: "/comprendre", ariaLabel: "Comprendre le cancer" },
+    { label: "Prévention", link: "/prevention", ariaLabel: "Prévention du cancer" },
+    { label: "Blog", link: "/Blog", ariaLabel: "Lire le blog" },
+    { label: "Témoignages", link: "/temoignages", ariaLabel: "Lire les témoignages" },
+    { label: "Faire un Don", link: "/Dons", ariaLabel: "Faire un don" },
+    { label: "Contact", link: "/Contact", ariaLabel: "Contacter l'équipe" },
+  ]}
+  colors={["#F7C6D0", "#E91E63"]}   
+  accentColor="#E91E63"
+  menuButtonColor="#111"
+  openMenuButtonColor="#E91E63"
+/>
 
       {/* CONTENU PAGE */}
       <div className="flex items-center justify-center min-h-screen">
