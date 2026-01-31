@@ -2,6 +2,7 @@ import StaggeredMenu from "@/components/StaggeredMenu"
 import { Switch } from "@/components/ui/switch"
 import { useCancer } from "../Cancer_context"
 import Hero from "@/components/Home/Hero"
+import Footer from "@/components/Layout/Footer"
 
 export function Home() {
   const { cancerType, toggleCancerType } = useCancer()
@@ -70,7 +71,8 @@ export function Home() {
       />
 
     <Hero />
-
+    
+<Footer/>
     </div>
   )
 }
