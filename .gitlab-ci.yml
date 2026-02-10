@@ -32,7 +32,7 @@ build:
     - docker login registry.gitlab.com -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD
     - docker build -t $IMAGE_NAME:$IMAGE_TAG .
   only:
-    - main  # or your desired branch
+    - Dev  # or your desired branch
 
 push:
   stage: push
@@ -41,7 +41,7 @@ push:
     - docker build -t $IMAGE_NAME:$IMAGE_TAG .
     - docker push $IMAGE_NAME:$IMAGE_TAG
   only:
-    - main  # or your desired branch
+    - Dev  # or your desired branch
 
 deploy:
   stage: deploy
@@ -70,5 +70,5 @@ deploy:
     - ssh -o StrictHostKeyChecking=no $REMOTE_USER@$REMOTE_HOST "docker run -d --name $CONTAINER_NAME -p 3000:80 $IMAGE_NAME:$IMAGE_TAG"
 
   only:
-    - main  # or your desired branch
+    - Dev  # or your desired branch
 
