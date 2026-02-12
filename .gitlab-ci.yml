@@ -9,7 +9,7 @@ variables:
   # Use GitLab built-in: project registry path (e.g. registry.gitlab.com/ntechinnov-group/cicd01)
   IMAGE_NAME: $CI_REGISTRY_IMAGE
   IMAGE_TAG: $CI_COMMIT_SHORT_SHA
-  CONTAINER_NAME: cicd01
+  CONTAINER_NAME: frontend_addr:latest
   REMOTE_USER: root
   REMOTE_HOST: $DEPLOY_SERVER_IP
   REMOTE_PORT: "22"
