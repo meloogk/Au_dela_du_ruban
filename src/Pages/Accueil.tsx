@@ -2,6 +2,7 @@ import StaggeredMenu from "@/components/StaggeredMenu"
 import { Switch } from "@/components/ui/switch"
 import { useCancer } from "../Cancer_context"
 import Hero from "@/components/Home/Hero"
+import CancerInfo from "@/components/Home/CancerInfo"
 import Footer from "@/components/Layout/Footer"
 
 export function Home() {
@@ -71,6 +72,7 @@ export function Home() {
       />
 
     <Hero />
+    <CancerInfo />
     
 <Footer/>
     </div>

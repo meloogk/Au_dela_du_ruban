@@ -6,7 +6,7 @@ const Hero = () => {
     <section className="relative min-h-screen overflow-hidden bg-hero-gradient">
     
       {/* Background image  */}
-<img src="/Hero1.webp" alt="Hero background" className=" absolute top-0 left-0 opacity-30 pointer-events-none z-[1] "
+<img src="/Hero1.webp" alt="Hero background" className=" absolute top-0 left-0 opacity-30 pointer-events-none z-1 "
   style={{
     width: "100%",   // largeur personnalisée
     height: "110%",   // hauteur personnalisée
