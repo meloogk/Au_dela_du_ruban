@@ -13,7 +13,7 @@ export function Home() {
     <div className="relative min-h-screen">
 
     {/* SWITCH aligné au MENU */}
-<div className="fixed top-4 right-[4.5rem] z-50 flex items-center gap-2">
+<div className="fixed top-4 right-18 z-50 flex items-center gap-2">
 
   {/* EMOJI SEIN */}
   <span

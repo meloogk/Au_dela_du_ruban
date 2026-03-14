@@ -1,79 +1,194 @@
-import { Button } from "@/components/ui/button";
-import { Heart,  ArrowRight } from "lucide-react";
+import { Button } from "@/components/ui/button"
+import { Heart, ArrowRight } from "lucide-react"
+import { useCancer } from "@/Cancer_context"
+import CountUp from "react-countup"
+import { motion } from "framer-motion"
 
 const Hero = () => {
+
+  const { cancerType } = useCancer()
+  const isBreast = cancerType === "sein"
+
+  const theme = isBreast
+    ? {
+        bg: "bg-hero-gradient",
+        image: "/Hero1.webp",
+
+        textColor: "text-pink-400",
+        gradientText: "text-pink-500",
+
+        badge: "bg-pink-200 text-pink-600",
+        icon: "text-pink-600",
+
+        button1: "bg-pink-500 hover:bg-pink-600 text-white",
+        button2: "bg-black text-pink-400",
+
+        statsBg: "bg-pink-100 border-pink-300",
+
+        stats: [
+          { value: 8, prefix: "1/", suffix: "", label: "femmes touchées dans leur vie" },
+          { value: 90, suffix: "%", label: "survie si détecté tôt" },
+          { value: 70, suffix: "%", label: "diagnostics tardifs en Afrique" }
+        ]
+      }
+
+    : {
+        bg: "bg-hero-gradient",
+        image: "/hero_prostate.webp",
+
+        textColor: "text-blue-800",
+        gradientText: "text-blue-800",
+
+        badge: "bg-blue-200 text-blue-600",
+        icon: "text-blue-600",
+
+        button1: "bg-blue-500 hover:bg-blue-600 text-white",
+        button2: "bg-black text-blue-400",
+
+        statsBg: "bg-blue-100 border-blue-300",
+
+        stats: [
+          { value: 8, prefix: "1/", suffix: "", label: "hommes touchés dans leur vie" },
+          { value: 95, suffix: "%", label: "survie si détecté tôt" },
+          { value: 1, prefix: "#", label: "cancer masculin le plus fréquent" }
+        ]
+      }
+
+  const statVariant = {
+    hidden: { opacity: 0, y: 40 },
+    visible: (i: number) => ({
+      opacity: 1,
+      y: 0,
+      transition: {
+        delay: i * 0.2,
+        duration: 0.6,
+        ease: "easeOut"
+      }
+    })
+  }
+
   return (
-    <section className="relative min-h-screen overflow-hidden bg-hero-gradient">
-    
-      {/* Background image  */}
-<img src="/Hero1.webp" alt="Hero background" className=" absolute top-0 left-0 opacity-30 pointer-events-none z-1 "
-  style={{
-    width: "100%",   // largeur personnalisée
-    height: "110%",   // hauteur personnalisée
-    objectFit: "cover", // pour remplir le conteneur de cette taille
-    objectPosition: "center", // centre l'image
-  }}
-/>
 
-      <div className="container relative z-10 mx-auto px-4 pt-24 pb-16 md:pt-32 md:pb-24">
+    <section className={`relative min-h-[85vh] lg:min-h-screen overflow-hidden transition-all duration-700 ${theme.bg}`}>
+
+      {/* IMAGE BACKGROUND */}
+
+      <img
+        src={theme.image}
+        alt=" cancer"
+        className="absolute inset-0 w-full h-full object-cover opacity-70 pointer-events-none z-[1]"
+      />
+
+      {/* OVERLAY POUR LIRE LE TEXTE */}
+
+      <div className="absolute inset-0 bg-black/20 z-2" />
+
+      <div className="container relative z-10 mx-auto px-4 pt-20 pb-10 md:pt-28 md:pb-16">
+
         <div className="grid gap-12 lg:grid-cols-2 lg:gap-16 items-center">
-          {/* Contenu */}
-          <div className="max-w-2xl">
-            <div className="animate-fade-up">
-              <span className="inline-flex items-center gap-2  bitter-regular rounded-full bg-pink-300 px-4 py-2 text-sm font-medium text-primary mb-6">
-                <Heart className="h-4 w-4 text-pink-600" />
-                Octobre Rose — Mois de sensibilisation
-              </span>
-            </div>
 
-          <h1 className="animate-fade-up-delay waterfall-regular text-4xl md:text-5xl lg:text-6xl xl:text-7xl leading-tight mb-6">
-  <span className="text-pink-400">Ensemble</span> contre le{" "}
-  <span className="text-gradient text-pink-400">cancer du sein</span>
-</h1>
-            <p className="animate-fade-up-delay-2  bitter-regular text-lg md:text-xl text-muted-foreground leading-relaxed mb-8 max-w-xl">
-              La prévention et le dépistage précoce sauvent des vies. 
-              Informez-vous, parlez-en autour de vous, et prenez soin de votre santé.
+          <div className="max-w-2xl">
+
+            {/* BADGE */}
+
+            <span className={`inline-flex items-center gap-2 bitter-regular rounded-full px-4 py-2 text-sm font-medium mb-6 ${theme.badge}`}>
+              <Heart className={`h-4 w-4 ${theme.icon}`} />
+              {isBreast ? "Octobre Rose" : "Novembre Bleu"} — Sensibilisation
+            </span>
+
+            {/* TITRE */}
+
+            <motion.h1
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.7 }}
+              className="waterfall-regular text-4xl md:text-5xl lg:text-6xl xl:text-7xl leading-tight mb-6"
+            >
+
+              <span className={theme.textColor}>Ensemble</span> contre le{" "}
+
+              <span className={theme.gradientText}>
+                {isBreast ? "cancer du sein" : "cancer de la prostate"}
+              </span>
+
+            </motion.h1>
+
+            {/* TEXTE */}
+
+            <p className="bitter-regular text-lg md:text-xl  leading-relaxed mb-6 max-w-xl text-black">
+              Le cancer du {isBreast ? "sein" : "la prostate"} touche des millions de personnes
+              dans le monde.
             </p>
 
-            <div className="animate-fade-up-delay-2 flex flex-col sm:flex-row gap-4 mb-12">
-              <Button className="bg-pink-400 text-black bitter-regular">
+            <p className="bitter-regular text-lg md:text-xl font-semibold text-foreground leading-relaxed mb-8 max-w-xl">
+              Mais détecté tôt, les chances de guérison peuvent dépasser
+              {isBreast ? " 90%" : " 95%"}.
+            </p>
+
+            {/* BOUTONS */}
+
+            <div className="flex flex-col sm:flex-row gap-4 mb-10">
+
+              <Button className={theme.button1}>
                 Se faire dépister
                 <ArrowRight className="ml-2 h-5 w-5" />
               </Button>
-              <Button className="bg-black text-pink-400 bitter-regular " >
+
+              <Button className={theme.button2}>
                 En savoir plus
                 <ArrowRight className="ml-2 h-5 w-5" />
               </Button>
+
             </div>
 
-            {/* Stats */}
-           <div className="grid grid-cols-1 md:grid-cols-3 gap-6 pt-10">
-  {[
-    { value: "1/8", label: "femmes touchées", delay: "delay-[100ms]" },
-    { value: "90%", label: "guérison si détecté tôt", delay: "delay-[200ms]" },
-    { value: "50+", label: "ans : dépistage gratuit", delay: "delay-[300ms]" },
-  ].map((stat, index) => (
-    <div key={index} className={` animate-slide-down ${stat.delay} bg-pink-200 backdrop-blur-sm border border-pink-600 rounded-2xl p-6 text-center transition-allduration-300 hover:-translate-y-2 hover:shadow-xl hover:bg-pink-100/70`} >
-      <p className="waterfall-regular text-pink-600 text-5xl font-bold">
-        {stat.value}
-      </p>
-      <p className="text-sm text-muted-foreground mt-2">
-        {stat.label}
-      </p>
-    </div>
-  ))}
-    </div>
+            {/* STATS */}
+
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 pt-6 md:pt-10">
+
+              {theme.stats.map((stat, index) => (
+
+                <motion.div
+                  key={index}
+                  custom={index}
+                  initial="hidden"
+                  whileInView="visible"
+                  viewport={{ once: true }}
+                  variants={statVariant}
+                  className={`${theme.statsBg} border rounded-2xl p-6 text-center transition-all duration-300 hover:-translate-y-2 hover:shadow-xl`}
+                >
+
+                  <p className="waterfall-regular text-3xl md:text-4xl font-bold">
+
+                    {stat.prefix}
+
+                    <CountUp
+                      end={stat.value}
+                      duration={2}
+                    />
+
+                    {stat.suffix}
+
+                  </p>
+
+                  <p className="text-sm text-muted-foreground mt-2">
+                    {stat.label}
+                  </p>
+
+                </motion.div>
+
+              ))}
+
+            </div>
 
           </div>
 
-          
-          
         </div>
+
       </div>
 
-      
     </section>
-  );
-};
 
-export default Hero;
+  )
+}
+
+export default Hero
