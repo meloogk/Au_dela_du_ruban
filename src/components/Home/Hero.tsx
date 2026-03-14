@@ -2,187 +2,193 @@ import { Button } from "@/components/ui/button"
 import { Heart, ArrowRight } from "lucide-react"
 import { useCancer } from "@/Cancer_context"
 import CountUp from "react-countup"
-import { motion } from "framer-motion"
+import { motion, useScroll, useTransform } from "framer-motion"
+import { fadeUp, staggerContainer, statVariant } from "@/animations/animations"
+import { useRef } from "react"
 
 const Hero = () => {
 
   const { cancerType } = useCancer()
   const isBreast = cancerType === "sein"
 
+  const ref = useRef(null)
+
+  const { scrollYProgress } = useScroll({
+    target: ref,
+    offset: ["start start", "end start"]
+  })
+
+  const imageY = useTransform(scrollYProgress, [0, 1], ["0%", "20%"])
+
   const theme = isBreast
     ? {
-        bg: "bg-hero-gradient",
         image: "/Hero1.webp",
-
         textColor: "text-pink-400",
         gradientText: "text-pink-500",
-
         badge: "bg-pink-200 text-pink-600",
         icon: "text-pink-600",
-
         button1: "bg-pink-500 hover:bg-pink-600 text-white",
         button2: "bg-black text-pink-400",
-
         statsBg: "bg-pink-100 border-pink-300",
-
         stats: [
           { value: 8, prefix: "1/", suffix: "", label: "femmes touchées dans leur vie" },
           { value: 90, suffix: "%", label: "survie si détecté tôt" },
           { value: 70, suffix: "%", label: "diagnostics tardifs en Afrique" }
         ]
       }
-
     : {
-        bg: "bg-hero-gradient",
         image: "/hero_prostate.webp",
-
         textColor: "text-blue-800",
         gradientText: "text-blue-800",
-
         badge: "bg-blue-200 text-blue-600",
         icon: "text-blue-600",
-
         button1: "bg-blue-500 hover:bg-blue-600 text-white",
         button2: "bg-black text-blue-400",
-
         statsBg: "bg-blue-100 border-blue-300",
-
         stats: [
           { value: 8, prefix: "1/", suffix: "", label: "hommes touchés dans leur vie" },
           { value: 95, suffix: "%", label: "survie si détecté tôt" },
-          { value: 1, prefix: "#", label: "cancer masculin le plus fréquent" }
+          { value: 1, prefix: "#", suffix: "", label: "cancer masculin le plus fréquent" }
         ]
       }
 
-  const statVariant = {
-    hidden: { opacity: 0, y: 40 },
-    visible: (i: number) => ({
-      opacity: 1,
-      y: 0,
-      transition: {
-        delay: i * 0.2,
-        duration: 0.6,
-        ease: "easeOut"
-      }
-    })
-  }
+  const title = isBreast
+    ? "Ensemble contre le cancer du sein"
+    : "Ensemble contre le cancer de la prostate"
+
+  const words = title.split(" ")
 
   return (
 
-    <section className={`relative min-h-[85vh] lg:min-h-screen overflow-hidden transition-all duration-700 ${theme.bg}`}>
+    <section
+      ref={ref}
+      className="relative min-h-screen overflow-hidden"
+    >
 
-      {/* IMAGE BACKGROUND */}
+      {/* IMAGE PARALLAX */}
 
-      <img
+      <motion.img
         src={theme.image}
-        alt=" cancer"
-        className="absolute inset-0 w-full h-full object-cover opacity-70 pointer-events-none z-[1]"
+        style={{ y: imageY }}
+        alt="sensibilisation cancer"
+        className="absolute inset-0 w-full h-full object-cover opacity-70"
       />
 
-      {/* OVERLAY POUR LIRE LE TEXTE */}
+      {/* OVERLAY */}
 
-      <div className="absolute inset-0 bg-black/20 z-2" />
+      <div className="absolute inset-0 bg-black/30 backdrop-blur-[2px]" />
 
-      <div className="container relative z-10 mx-auto px-4 pt-20 pb-10 md:pt-28 md:pb-16">
+      {/* GRADIENT LIGHT */}
 
-        <div className="grid gap-12 lg:grid-cols-2 lg:gap-16 items-center">
+      <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent animate-pulse" />
 
-          <div className="max-w-2xl">
+      <div className="container relative z-10 mx-auto px-4 pt-32 pb-16">
 
-            {/* BADGE */}
+        <motion.div
+          variants={staggerContainer}
+          initial="hidden"
+          animate="visible"
+          className="max-w-2xl"
+        >
 
-            <span className={`inline-flex items-center gap-2 bitter-regular rounded-full px-4 py-2 text-sm font-medium mb-6 ${theme.badge}`}>
-              <Heart className={`h-4 w-4 ${theme.icon}`} />
-              {isBreast ? "Octobre Rose" : "Novembre Bleu"} — Sensibilisation
-            </span>
+          {/* BADGE */}
 
-            {/* TITRE */}
+          <motion.span
+            variants={fadeUp}
+            className={`inline-flex items-center gap-2 bitter-regular rounded-full px-4 py-2 text-sm mb-6 ${theme.badge}`}
+          >
+            <Heart className={`h-4 w-4 ${theme.icon}`} />
+            {isBreast ? "Octobre Rose" : "Novembre Bleu"} — Sensibilisation
+          </motion.span>
 
-            <motion.h1
-              initial={{ opacity: 0, y: 30 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.7 }}
-              className="waterfall-regular text-4xl md:text-5xl lg:text-6xl xl:text-7xl leading-tight mb-6"
-            >
+          {/* TITRE */}
 
-              <span className={theme.textColor}>Ensemble</span> contre le{" "}
+          <h1 className="waterfall-regular text-5xl md:text-6xl lg:text-7xl tracking-tight leading-tight mb-6">
 
-              <span className={theme.gradientText}>
-                {isBreast ? "cancer du sein" : "cancer de la prostate"}
-              </span>
+            {words.map((word, i) => (
 
-            </motion.h1>
+              <motion.span
+                key={i}
+                variants={fadeUp}
+                className={`inline-block mr-3 ${
+                  word.includes("sein") || word.includes("prostate")
+                    ? theme.gradientText
+                    : theme.textColor
+                }`}
+              >
+                {word}
+              </motion.span>
 
-            {/* TEXTE */}
+            ))}
 
-            <p className="bitter-regular text-lg md:text-xl  leading-relaxed mb-6 max-w-xl text-black">
-              Le cancer du {isBreast ? "sein" : "la prostate"} touche des millions de personnes
-              dans le monde.
-            </p>
+          </h1>
 
-            <p className="bitter-regular text-lg md:text-xl font-semibold text-foreground leading-relaxed mb-8 max-w-xl">
-              Mais détecté tôt, les chances de guérison peuvent dépasser
-              {isBreast ? " 90%" : " 95%"}.
-            </p>
+          {/* TEXTE */}
 
-            {/* BOUTONS */}
+          <motion.p
+            variants={fadeUp}
+            className="bitter-regular text-lg md:text-xl mb-8 max-w-xl text-white"
+          >
+            Le cancer du {isBreast ? "sein" : "la prostate"} touche des millions
+            de personnes dans le monde. Détecté tôt, les chances de guérison
+            dépassent {isBreast ? "90%" : "95%"}.
+          </motion.p>
 
-            <div className="flex flex-col sm:flex-row gap-4 mb-10">
+          {/* BOUTONS */}
 
-              <Button className={theme.button1}>
-                Se faire dépister
-                <ArrowRight className="ml-2 h-5 w-5" />
-              </Button>
+          <motion.div
+            variants={fadeUp}
+            className="flex flex-col sm:flex-row gap-4 mb-12"
+          >
 
-              <Button className={theme.button2}>
-                En savoir plus
-                <ArrowRight className="ml-2 h-5 w-5" />
-              </Button>
+            <Button className={theme.button1}>
+              Se faire dépister
+              <ArrowRight className="ml-2 h-5 w-5" />
+            </Button>
 
-            </div>
+            <Button className={theme.button2}>
+              En savoir plus
+            </Button>
 
-            {/* STATS */}
+          </motion.div>
 
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 pt-6 md:pt-10">
+          {/* STATS */}
 
-              {theme.stats.map((stat, index) => (
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
 
-                <motion.div
-                  key={index}
-                  custom={index}
-                  initial="hidden"
-                  whileInView="visible"
-                  viewport={{ once: true }}
-                  variants={statVariant}
-                  className={`${theme.statsBg} border rounded-2xl p-6 text-center transition-all duration-300 hover:-translate-y-2 hover:shadow-xl`}
-                >
+            {theme.stats.map((stat, index) => (
 
-                  <p className="waterfall-regular text-3xl md:text-4xl font-bold">
+              <motion.div
+                key={index}
+                custom={index}
+                variants={statVariant}
+                initial="hidden"
+                whileInView="visible"
+                viewport={{ once: true }}
+                className={`${theme.statsBg} border rounded-2xl p-6 text-center transition-all hover:-translate-y-2 hover:shadow-xl`}
+              >
 
-                    {stat.prefix}
+                <p className="waterfall-regular text-4xl font-bold">
 
-                    <CountUp
-                      end={stat.value}
-                      duration={2}
-                    />
+                  {stat.prefix}
 
-                    {stat.suffix}
+                  <CountUp end={stat.value} duration={2} />
 
-                  </p>
+                  {stat.suffix}
 
-                  <p className="text-sm text-muted-foreground mt-2">
-                    {stat.label}
-                  </p>
+                </p>
 
-                </motion.div>
+                <p className="bitter-regular text-sm mt-2 text-muted-foreground">
+                  {stat.label}
+                </p>
 
-              ))}
+              </motion.div>
 
-            </div>
+            ))}
 
           </div>
 
-        </div>
+        </motion.div>
 
       </div>
 
