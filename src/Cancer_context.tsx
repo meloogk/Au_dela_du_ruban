@@ -16,8 +16,10 @@ export const CancerProvider = ({ children }: { children: React.ReactNode }) => {
     setCancerType((prev) => (prev === "sein" ? "prostate" : "sein"))
   }
 
+  const value = useMemo(() => ({ cancerType, toggleCancerType }), [cancerType])
+
   return (
-    <CancerContext.Provider value={{ cancerType, toggleCancerType }}>
+    <CancerContext.Provider value={value}>
       {children}
     </CancerContext.Provider>
   )

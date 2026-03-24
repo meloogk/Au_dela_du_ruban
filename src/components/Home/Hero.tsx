@@ -22,9 +22,9 @@ const Hero = () => {
 
   const theme = isBreast
     ? {
-        image: "/Hero1.webp",
-        textColor: "text-pink-400",
-        gradientText: "text-pink-500",
+        image: "/hero.webp",
+        textColor: "text-pink-800",
+        gradientText: "text-pink-800",
         badge: "bg-pink-200 text-pink-600",
         icon: "text-pink-600",
         button1: "bg-pink-500 hover:bg-pink-600 text-white",
@@ -62,11 +62,10 @@ const Hero = () => {
 
     <section
       ref={ref}
-      className="relative min-h-screen overflow-hidden"
+      className="relative min-h-[85vh] md:min-h-screen overflow-hidden"
     >
 
       {/* IMAGE PARALLAX */}
-
       <motion.img
         src={theme.image}
         style={{ y: imageY }}
@@ -74,15 +73,10 @@ const Hero = () => {
         className="absolute inset-0 w-full h-full object-cover opacity-70"
       />
 
-      {/* OVERLAY */}
-
-      <div className="absolute inset-0 bg-black/30 backdrop-blur-[2px]" />
-
       {/* GRADIENT LIGHT */}
-
       <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent animate-pulse" />
 
-      <div className="container relative z-10 mx-auto px-4 pt-32 pb-16">
+      <div className="container relative z-10 mx-auto px-4 pt-20 md:pt-28 lg:pt-36 pb-8">
 
         <motion.div
           variants={staggerContainer}
@@ -92,25 +86,22 @@ const Hero = () => {
         >
 
           {/* BADGE */}
-
           <motion.span
             variants={fadeUp}
-            className={`inline-flex items-center gap-2 bitter-regular rounded-full px-4 py-2 text-sm mb-6 ${theme.badge}`}
+            className={`inline-flex items-center gap-2 bitter-regular rounded-full px-3 py-1.5 text-xs sm:text-sm mb-4 ${theme.badge}`}
           >
             <Heart className={`h-4 w-4 ${theme.icon}`} />
             {isBreast ? "Octobre Rose" : "Novembre Bleu"} — Sensibilisation
           </motion.span>
 
           {/* TITRE */}
-
-          <h1 className="waterfall-regular text-5xl md:text-6xl lg:text-7xl tracking-tight leading-tight mb-6">
+          <h1 className="waterfall-regular text-3xl sm:text-4xl md:text-5xl lg:text-6xl tracking-tight leading-tight mb-4 md:mb-6">
 
             {words.map((word, i) => (
-
               <motion.span
                 key={i}
                 variants={fadeUp}
-                className={`inline-block mr-3 ${
+                className={`inline-block mr-2 sm:mr-3 ${
                   word.includes("sein") || word.includes("prostate")
                     ? theme.gradientText
                     : theme.textColor
@@ -118,16 +109,14 @@ const Hero = () => {
               >
                 {word}
               </motion.span>
-
             ))}
 
           </h1>
 
           {/* TEXTE */}
-
           <motion.p
             variants={fadeUp}
-            className="bitter-regular text-lg md:text-xl mb-8 max-w-xl text-white"
+            className="bitter-regular text-sm sm:text-base md:text-lg mb-6 md:mb-8 max-w-xl text-dark"
           >
             Le cancer du {isBreast ? "sein" : "la prostate"} touche des millions
             de personnes dans le monde. Détecté tôt, les chances de guérison
@@ -135,26 +124,24 @@ const Hero = () => {
           </motion.p>
 
           {/* BOUTONS */}
-
           <motion.div
             variants={fadeUp}
-            className="flex flex-col sm:flex-row gap-4 mb-12"
+            className="flex flex-col sm:flex-row gap-3 sm:gap-4 mb-8 md:mb-12"
           >
 
-            <Button className={theme.button1}>
+            <Button className={`${theme.button1} text-sm sm:text-base`}>
               Se faire dépister
-              <ArrowRight className="ml-2 h-5 w-5" />
+              <ArrowRight className="ml-2 h-4 w-4 sm:h-5 sm:w-5" />
             </Button>
 
-            <Button className={theme.button2}>
+            <Button className={`${theme.button2} text-sm sm:text-base`}>
               En savoir plus
             </Button>
 
           </motion.div>
 
           {/* STATS */}
-
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <div className="grid grid-cols-2 md:grid-cols-3 gap-4 md:gap-6">
 
             {theme.stats.map((stat, index) => (
 
@@ -165,20 +152,18 @@ const Hero = () => {
                 initial="hidden"
                 whileInView="visible"
                 viewport={{ once: true }}
-                className={`${theme.statsBg} border rounded-2xl p-6 text-center transition-all hover:-translate-y-2 hover:shadow-xl`}
+                className={`${theme.statsBg} border rounded-2xl p-4 md:p-6 text-center transition-all hover:-translate-y-2 hover:shadow-xl`}
               >
 
-                <p className="waterfall-regular text-4xl font-bold">
+                <p className="waterfall-regular text-2xl md:text-3xl lg:text-4xl font-bold">
 
                   {stat.prefix}
-
                   <CountUp end={stat.value} duration={2} />
-
                   {stat.suffix}
 
                 </p>
 
-                <p className="bitter-regular text-sm mt-2 text-muted-foreground">
+                <p className="bitter-regular text-xs sm:text-sm mt-2 text-muted-foreground">
                   {stat.label}
                 </p>
 
@@ -193,7 +178,6 @@ const Hero = () => {
       </div>
 
     </section>
-
   )
 }
 

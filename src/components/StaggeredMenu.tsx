@@ -491,18 +491,18 @@ export const StaggeredMenu: React.FC<StaggeredMenuProps> = ({
                       aria-label={it.ariaLabel}
                       data-index={idx + 1}
                     >
-                      <span className="sm-panel-itemLabel inline-block [transform-origin:50%_100%] will-change-transform">
-                        {it.label}
-                      </span>
+                      <span className="sm-panel-itemLabel inline-block origin-[50%_100%] will-change-transform">
+                          {it.label}
+                        </span>
                     </a>
                   </li>
                 ))
               ) : (
                 <li className="sm-panel-itemWrap relative overflow-hidden leading-none" aria-hidden="true">
                   <span className="sm-panel-item relative text-black font-semibold text-[4rem] cursor-pointer leading-none tracking-[-2px] uppercase transition-[background,color] duration-150 ease-linear inline-block no-underline pr-[1.4em]">
-                    <span className="sm-panel-itemLabel inline-block [transform-origin:50%_100%] will-change-transform">
-                      No items
-                    </span>
+                    <span className="sm-panel-itemLabel inline-block origin-[50%_100%] will-change-transform">
+                        No items
+                      </span>
                   </span>
                 </li>
               )}
